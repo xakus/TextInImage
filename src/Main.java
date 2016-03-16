@@ -22,26 +22,27 @@
 //}
 
 
-import com.aspose.ocr.IImageStream;
-import com.aspose.ocr.ImageStream;
-import com.aspose.ocr.LanguageContainer;
-import com.aspose.ocr.OcrEngine;
+import com.aspose.barcode.internal.Exceptions.Exception;
+import com.aspose.barcode.internal.as.bu;
+import com.aspose.imaging.imageoptions.TypeOfEntities;
+import com.aspose.imaging.internal.bouncycastle.util.io.Streams;
+import com.aspose.ocr.*;
+import com.sun.corba.se.impl.orb.ORBConfiguratorImpl;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.RenderedImage;
+import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
-import java.io.OutputStream;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 
 public class Main {
     JLabel jLabel = new JLabel();
     JLabel jLabel2 = new JLabel();
+    JTextField jTextField=new JTextField("0");
     Frame frame = new Frame();
     BufferedImage bufferedImage;
     public Main() {
@@ -50,6 +51,7 @@ public class Main {
 
         frame.add(jLabel);
         frame.add(jLabel2);
+        frame.add(jTextField);
         frame.setLayout(new GridLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.visible();
@@ -63,12 +65,31 @@ public class Main {
             @Override
             public void run() {
                 while(true){
-                    bufferedImage = grabScreen(frame.getLocationX()+4, frame.getLocationY()+32, 200, 50);
+                    bufferedImage = grabScreen(frame.getLocationX()+4, frame.getLocationY()+43, 100, 60);
                     ImageIcon  imageIcon = new ImageIcon( bufferedImage);
-                    ocrEngine.setImage((IImageStream) imageIcon.getImage());
 
-                    System.out.println(ocrEngine.getText());
+
+                    ByteArrayOutputStream os = new ByteArrayOutputStream();
+                    try {
+                        ImageIO.write((RenderedImage) imageIcon.getImage(), "bmp", os);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    InputStream is = new ByteArrayInputStream(os.toByteArray());
                     jLabel.setIcon(imageIcon);
+                        ocrEngine.setProcessAllPages(true);
+                        ocrEngine.setImage(ImageStream.fromStream(is,ImageStreamFormat.Bmp));
+
+                    try {
+                        if (ocrEngine.process()) {
+                           // System.out.println(ocrEngine.getText());
+                            jLabel2.setText( ocrEngine.getText().toString());
+                        }
+                    }catch (Exception ex){
+                        System.out.println("Error");
+                    }
+
+
                 }
             }
         } );

@@ -5,7 +5,7 @@ import javax.swing.*;
  */
 public class Frame extends JFrame {
     public Frame() {
-        this.setSize(200,50);
+        this.setSize(300,60);
         this.setResizable(false);
         this.setLocation(0,0);
 
