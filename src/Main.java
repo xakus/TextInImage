@@ -21,6 +21,12 @@
 // }
 //}
 
+
+import com.aspose.ocr.IImageStream;
+import com.aspose.ocr.ImageStream;
+import com.aspose.ocr.LanguageContainer;
+import com.aspose.ocr.OcrEngine;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,11 +34,14 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.io.OutputStream;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 
 public class Main {
     JLabel jLabel = new JLabel();
+    JLabel jLabel2 = new JLabel();
     Frame frame = new Frame();
     BufferedImage bufferedImage;
     public Main() {
@@ -40,15 +49,26 @@ public class Main {
 
 
         frame.add(jLabel);
+        frame.add(jLabel2);
+        frame.setLayout(new GridLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.visible();
-        final ImageIcon[] imageIcon = {null};
+
+
+
+        //Set the Image property by loading the image from file path location
+        // ocrEngine.setImage(ImageStream.fromFile("C:\\Users\\xakus\\Desktop\\hqdefault.jpg"));
         Thread thread=new Thread(new Runnable() {
+            OcrEngine ocrEngine = new OcrEngine();
             @Override
             public void run() {
                 while(true){
                     bufferedImage = grabScreen(frame.getLocationX()+4, frame.getLocationY()+32, 200, 50);
-                    imageIcon[0] = new ImageIcon( bufferedImage);
-                    jLabel.setIcon(imageIcon[0]);
+                    ImageIcon  imageIcon = new ImageIcon( bufferedImage);
+                    ocrEngine.setImage((IImageStream) imageIcon.getImage());
+
+                    System.out.println(ocrEngine.getText());
+                    jLabel.setIcon(imageIcon);
                 }
             }
         } );

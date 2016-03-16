@@ -8,7 +8,7 @@ public class Frame extends JFrame {
         this.setSize(200,50);
         this.setResizable(false);
         this.setLocation(0,0);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
     }
     public int getLocationX(){
