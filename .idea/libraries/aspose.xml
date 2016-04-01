@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="aspose">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/javaocr-core-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javaocr-plugin-awt-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javaocr-plugin-cluster-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javaocr-plugin-fir-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javaocr-plugin-moment-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javaocr-plugin-morphology-1.0.jar!/" />
+      <root url="file://$PROJECT_DIR$/lib/aspose" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/aspose" recursive="false" />
+  </library>
+</component>
