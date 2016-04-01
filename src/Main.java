@@ -24,12 +24,16 @@
 
 import com.aspose.barcode.internal.Exceptions.Exception;
 import com.aspose.barcode.internal.as.bu;
+import com.aspose.barcode.internal.ms.System.Drawing.*;
 import com.aspose.imaging.imageoptions.TypeOfEntities;
 import com.aspose.imaging.internal.bouncycastle.util.io.Streams;
 import com.aspose.ocr.*;
 import com.sun.corba.se.impl.orb.ORBConfiguratorImpl;
+import org.w3c.dom.css.RGBColor;
 
 import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.RenderedImage;
@@ -64,9 +68,20 @@ public class Main {
             OcrEngine ocrEngine = new OcrEngine();
             @Override
             public void run() {
+                  int oldRGB=0;
+                int   newRGB=0;
                 while(true){
                     bufferedImage = grabScreen(frame.getLocationX()+4, frame.getLocationY()+43, 100, 60);
+
+                    for (int i=0;i<bufferedImage.getHeight();i++) {
+                        bufferedImage.setRGB(i, i, Color.black.getRGB());
+                    }
                     ImageIcon  imageIcon = new ImageIcon( bufferedImage);
+                    newRGB =bufferedImage.getRGB(bufferedImage.getWidth()-5,bufferedImage.getHeight()-5);
+                    if(oldRGB!=newRGB) {
+                        oldRGB = newRGB;
+                        System.out.println("RGB=" + newRGB+"  x="+(bufferedImage.getWidth()-5)+" y="+(bufferedImage.getHeight()-5)+" color red="+Color.red.getRGB());
+                    }
 
 
                     ByteArrayOutputStream os = new ByteArrayOutputStream();
