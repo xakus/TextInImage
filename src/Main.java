@@ -29,6 +29,9 @@ import com.aspose.imaging.imageoptions.TypeOfEntities;
 import com.aspose.imaging.internal.bouncycastle.util.io.Streams;
 import com.aspose.ocr.*;
 import com.sun.corba.se.impl.orb.ORBConfiguratorImpl;
+import com.sun.prism.paint.*;
+import com.sun.prism.paint.Paint;
+import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.RGBColor;
 
 import java.awt.*;
@@ -56,12 +59,15 @@ public class Main {
         frame.add(jLabel);
         frame.add(jLabel2);
         frame.add(jTextField);
-        frame.setLayout(new GridLayout());
+        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.visible();
-
-
-
+        jLabel.setLocation(10,2);
+        jLabel.setSize(100,50);
+        jLabel2.setLocation(10,40);
+        jLabel2.setSize(100,40);
+        jTextField.setLocation(110,2);
+        jTextField.setSize(100,20);
         //Set the Image property by loading the image from file path location
         // ocrEngine.setImage(ImageStream.fromFile("C:\\Users\\xakus\\Desktop\\hqdefault.jpg"));
         Thread thread=new Thread(new Runnable() {
@@ -71,10 +77,26 @@ public class Main {
                   int oldRGB=0;
                 int   newRGB=0;
                 while(true){
-                    bufferedImage = grabScreen(frame.getLocationX()+4, frame.getLocationY()+43, 100, 60);
-
-                    for (int i=0;i<bufferedImage.getHeight();i++) {
-                        bufferedImage.setRGB(i, i, Color.black.getRGB());
+                    bufferedImage = grabScreen(frame.getLocationX()+4, frame.getLocationY()+200, 100, 40);
+                    frame.setSize(200,100);
+                    for (int i=0;i<bufferedImage.getWidth();i++) {
+                        for (int j=0;j<bufferedImage.getHeight();j++) {
+                            ////////////////////////////////////Monoxrom ///////////////////////////
+//                            if(bufferedImage.getRGB(i,j)<(-16777216+1)/4) {
+//                                bufferedImage.setRGB(i, j, Color.black.getRGB());
+//                            }else{
+//                                bufferedImage.setRGB(i, j, Color.white.getRGB());
+//                            }
+                            //////////////////////////////////////Ag qara////////////////////////////////
+                            int color = bufferedImage.getRGB(i,j);
+                            int r = (color >> 16) & 0xFF;
+                            int g = (color >> 8) & 0xFF;
+                            int b = (color >> 0) & 0xFF;
+                            int grey=(r+g+b)/3;
+                          //  System.out.println("r="+r+" g="+g+" b="+b);
+                            bufferedImage.setRGB(i, j, new Color(grey,grey,grey).getRGB() );
+                           ///////////////////////////////////////////////////////////////////////////
+                        }
                     }
                     ImageIcon  imageIcon = new ImageIcon( bufferedImage);
                     newRGB =bufferedImage.getRGB(bufferedImage.getWidth()-5,bufferedImage.getHeight()-5);
